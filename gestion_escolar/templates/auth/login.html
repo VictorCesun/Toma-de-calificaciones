@@ -1,26 +1,26 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Login</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
-    </head>
-    <body>
+{% load static %}
 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Iniciar Sesión</button>
+         <br>
+            <a href="{% url 'registro' %}">
+        <button type="button" class="registro-btn">Ir a Registro</button>
+    </a>
     </form>
 
-    <br>
+   
     <!-- Botón de enlace a la página de registro -->
-    <a href="{% url 'registro' %}">
-        <button type="button">Ir a Registro</button>
-    </a>
 
-    </body>
+</body>
 </html>
