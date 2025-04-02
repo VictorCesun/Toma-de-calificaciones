@@ -1,0 +1,14 @@
+<form method="POST">
+  {% csrf_token %}
+  <select name="docente">
+    {% for docente in docentes %}
+      <option value="{{ docente.id }}">{{ docente.nombre }}</option>
+    {% endfor %}
+  </select>
+  <select name="materia">
+    {% for materia in materias %}
+      <option value="{{ materia.id }}">{{ materia.nombre }}</option>
+    {% endfor %}
+  </select>
+  <button type="submit">Asignar</button>
+</form>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Materias</title>
+</head>
+<body>
+    <h2>Materias Disponibles</h2>
+    <ul>
+        {% for materia in materias %}
+            <li>{{ materia.nombre }}</li>
+        {% empty %}
+            <li>No hay materias registradas.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

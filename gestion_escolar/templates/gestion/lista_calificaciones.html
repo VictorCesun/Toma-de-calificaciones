@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Mis Calificaciones</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
+</head>
+<body>
+    <h2>Mis Calificaciones</h2>
+
+    {% if calificaciones %}
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Materia</th>
+                    <th>Calificación</th>
+                    <th>Fecha</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for calificacion in calificaciones %}
+                <tr>
+                    <td>{{ calificacion.materia.nombre }}</td>
+                    <td>{{ calificacion.calificacion }}</td>
+                    <td>{{ calificacion.fecha }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No tienes calificaciones registradas.</p>
+    {% endif %}
+
+    <script src="{% static 'js/script.js' %}" async defer></script>
+</body>
+</html>

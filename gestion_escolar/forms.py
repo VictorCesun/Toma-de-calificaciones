@@ -2,25 +2,26 @@ from django import forms
 from django.contrib.auth.models import User
 from .models import Alumno, Docente, Materia, Calificacion, Asistencia
 
-
-# 📌 Formulario de Registro de Usuarios
+# 📌 Formulario de Registro con selección de rol
 class RegistroForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput, label="Contraseña")
-    confirm_password = forms.CharField(widget=forms.PasswordInput, label="Confirmar Contraseña")
+    ROLES = [
+        ('Alumno', 'Alumno'),
+        ('Docente', 'Docente'),
+        ('Administrativo', 'Administrativo'),
+    ]
+    
+    rol = forms.ChoiceField(choices=ROLES, label="Rol")
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'password']
+        fields = ['username', 'email', 'password', 'rol']
 
-    def clean(self):
-        cleaned_data = super().clean()
-        password = cleaned_data.get("password")
-        confirm_password = cleaned_data.get("confirm_password")
-
-        if password and confirm_password and password != confirm_password:
-            raise forms.ValidationError("Las contraseñas no coinciden.")
-        return cleaned_data
-
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.set_password(self.cleaned_data['password'])
+        if commit:
+            user.save()
+        return user
 
 # 📌 Formulario para Alumnos
 class AlumnoForm(forms.ModelForm):
@@ -28,20 +29,17 @@ class AlumnoForm(forms.ModelForm):
         model = Alumno
         fields = ['usuario', 'matricula', 'nombre', 'apellido', 'fecha_nacimiento']
 
-
 # 📌 Formulario para Docentes
 class DocenteForm(forms.ModelForm):
     class Meta:
         model = Docente
         fields = ['usuario', 'nombre', 'apellido']
 
-
 # 📌 Formulario para Materias
 class MateriaForm(forms.ModelForm):
     class Meta:
         model = Materia
         fields = ['nombre', 'docente']
-
 
 # 📌 Formulario para Calificaciones
 class CalificacionForm(forms.ModelForm):
@@ -51,7 +49,6 @@ class CalificacionForm(forms.ModelForm):
         widgets = {
             'calificacion': forms.NumberInput(attrs={'step': '0.1', 'min': '0', 'max': '100'}),
         }
-
 
 # 📌 Formulario para Asistencia
 class AsistenciaForm(forms.ModelForm):
